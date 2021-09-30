@@ -1,4 +1,5 @@
 const express = require('express');
+
 const router = express.Router();
 var _ = require("underscore");
 const bcrypt = require('bcrypt');
@@ -9,6 +10,7 @@ module.exports = function () {
     //Imlashi
     router.post('/add_room', function (req, res) {
         let RoomData = new Room(req.body);
+        RoomData.img = "https://www.collinsdictionary.com/images/full/doubleroom_564885484_1000.jpg"
         RoomData.save()
             .then(Room => {
                 var data = {
@@ -28,7 +30,7 @@ module.exports = function () {
 
     //Imalshi
     router.get('/get_all_rooms', function (req, res) {
-
+      
         Room.find(function (err, dataX) {
 
             if (!err) {
@@ -54,8 +56,8 @@ module.exports = function () {
         Room.find(function (err, dataX) {
 
             if (!err) {
-                var filtered = _.where(dataX, {Room_Name: req.body.id });
-                console.log("HU",filtered)
+                var filtered = _.where(dataX, { Room_Name: req.body.id });
+                console.log("HU", filtered)
                 var data = {
                     Status: "Sucess",
                     Message: "Retrived All Room Data",
@@ -71,8 +73,8 @@ module.exports = function () {
             }
         })
     })
-   
- 
+
+
 
 
     //Imlashi
@@ -104,6 +106,38 @@ module.exports = function () {
             res.status(200).send(data);
 
         }
+    })
+
+    //Imalshi 
+    router.post('/RemoveROOm', function (req, res) {
+        console.log(req.body, "here")
+        try {
+            Room.findByIdAndRemove({ _id: req.body.id }, function (err, todo) {
+                if (!err) {
+                    var data = {
+                        Status: "Sucess",
+                        Message: "User Deleted"
+                    }
+                    res.status(200).send(data);
+                } else {
+                    console.log(req.body, "here2")
+                    var data = {
+                        Status: "Fail",
+                        Message: "Unexpected Error PLease Contact System Admin"
+                    }
+                    res.status(200).send(data);
+                }
+            });
+
+        } catch {
+            var data = {
+                Status: "Fail",
+                Message: "Unexpected Error PLease Contact System Admin"
+            }
+            res.status(200).send(data);
+
+        }
+
     })
 
     return router;
