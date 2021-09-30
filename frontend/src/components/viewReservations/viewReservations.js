@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Card, Icon, Image, Header, Button } from 'semantic-ui-react'
+
 class GetallCategories extends Component {
     constructor(props) {
         super(props);
@@ -20,34 +21,70 @@ class GetallCategories extends Component {
 
     componentDidMount() {
         console.log("test")
-        axios.get('https://doubletreeapi.herokuapp.com/rooms/get_all_rooms')
-            .then(response => {
-                this.setState({ options: response.data });
-                console.log(response.data)
-                console.log("test1122")
-            })
-    }
-
-    UpdateRoom(e, ID) {
-        window.location = `/ViewROomByID/${ID}`
-    }
-
-    DeleteUSer(e, ID) {
         const User = {
-            id: ID
+            User_Name: "User"
         }
-        axios.post('https://doubletreeapi.herokuapp.com/rooms/RemoveROOm', User)
+        try {
+            axios.post('https://doubletreeapi.herokuapp.com/reservation/get_all_Reservations_byUserID', User)
+                .then(response => {
+                    this.setState({ options: response.data.data });
+                    this.setState({ size: response.data.data[0].Room_ID });
+                    this.setState({ Ammount: response.data.data[0].To_Date });
+                    this.setState({ Code: response.data.data[0].From_Date });
+                    console.log(response.data)
+                    console.log("test11")
+                })
+
+        } catch {
+            console.log("Fa8illllllllllllll")
+
+        }
+
+    }
+
+    DeclineResevation(e, ID, Status, Price, From_Date, To_Date) {
+        const Reservation = {
+            id: ID,
+            User_Name: "User",
+            Room_ID: this.state.size,
+            From_Date: From_Date,
+            To_Date: To_Date,
+            Price: Price,
+            Status: "Decline"
+        };
+        axios.post('https://doubletreeapi.herokuapp.com/reservation/RemoveReservation', Reservation)
             .then(response => {
                 this.setState({ options: response.data.data });
                 console.log(response.data.data)
                 console.log("test11")
             })
-        window.location = `/viewRooms`
+        window.location = `/viewReservation`
     }
+    AcceptReservation(e, ID, Status, Price, From_Date, To_Date) {
+        const Reservation = {
+            id: ID,
+            User_Name: "User",
+            Room_ID: this.state.size,
+            From_Date: From_Date,
+            To_Date: To_Date,
+            Price: Price,
+            Status: "Accept"
+        };
+        axios.post('https://doubletreeapi.herokuapp.com/reservation/RemoveReservation', Reservation)
+            .then(response => {
+                this.setState({ options: response.data.data });
+                console.log(response.data.data)
+                console.log("test11")
+            })
+        window.location = `/viewReservation`
+    }
+
+
 
 
     render() {
         return (
+
             <body>
                 <div class="ui visible sidebar inverted vertical menu">
                     <a class="item">
@@ -104,7 +141,7 @@ class GetallCategories extends Component {
 
                             <Header as='h2' icon textAlign='center'>
                                 <Icon name='hotel' circular />
-                                <Header.Content>Hotel Rooms</Header.Content>
+                                <Header.Content>Reservations</Header.Content>
                             </Header>
 
                         </div>
@@ -114,41 +151,37 @@ class GetallCategories extends Component {
                             {this.state.options.length > 0 && this.state.options.map((item, index) => (
 
                                 <div style={{ display: 'inline-block', marginLeft: '100px', marginRight: '40px', marginBottom: '100px' }} key={index}>
-                                    <div>
+                                    <div >
                                         <Card>
-                                            <Image style={{ height: '200px' }} src={item.img} />
+                                            <Image src='https://www.gannett-cdn.com/-mm-/05b227ad5b8ad4e9dcb53af4f31d7fbdb7fa901b/c=0-64-2119-1259/local/-/media/USATODAY/USATODAY/2014/08/13/1407953244000-177513283.jpg?width=660&height=373&fit=crop&format=pjpg&auto=webp' />
                                             <Card.Content>
-                                                <Card.Header>Room Name : {item.Room_Name}</Card.Header>
+                                                <Card.Header>Reservation Status : {item.Status}</Card.Header>
                                                 <Card.Meta>
-                                                    <span className='date'> Room Type : {item.Room_Type}</span>
+                                                    <span className='date'> Price : {item.Price}</span>
                                                 </Card.Meta>
                                             </Card.Content>
                                             <Card.Content extra>
                                                 <a>
-                                                    <Icon name='user' />
-                                                    Beds : {item.Beds}
+                                                    <Icon name='remove from calendar' />
+                                                    From Date : {item.From_Date}
                                                 </a>
                                                 <br></br>
                                                 <a>
-                                                    <Icon name='user' />
-                                                    Floor : {item.Floor}
+                                                    <Icon name='remove from calendar' />
+                                                    To Date : {item.To_Date}
                                                 </a>
                                                 <br></br>
-                                                <a>
-                                                    <Icon name='user' />
-                                                    Price : {item.Price}
-                                                </a>
+
                                             </Card.Content>
-                                            <Card.Content extra>
-                                                <div className='ui two buttons'>
-                                                    <Button onClick={e => this.UpdateRoom(e, item.Room_Name)} basic color='green'>
-                                                        Update Room
-                                                    </Button>
-                                                    <Button onClick={e => this.DeleteUSer(e, item._id)} basic color='red'>
-                                                        Remove Room
-                                                    </Button>
-                                                </div>
-                                            </Card.Content>
+                                            <center><Button.Group>
+                                                <Button onClick={e => this.AcceptReservation(e, item._id, item.Status, item.Price, item.From_Date, item.To_Date)} basic color='red'>
+                                                    Accept 
+                                                </Button>
+                                                <Button onClick={e => this.DeclineResevation(e, item._id, item.Status, item.Price, item.From_Date, item.To_Date)} basic color='red'>
+                                                    Decline 
+                                                </Button>
+                                            </Button.Group></center>
+                                            <br></br>
                                         </Card>
 
 

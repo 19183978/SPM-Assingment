@@ -21,7 +21,7 @@ class GetallCategories extends Component {
 
   componentDidMount() {
     console.log("test")
-    axios.get('https://doubletreeapi.herokuapp.com/rooms/get_all_rooms')
+    axios.get('https://doubletreeapi.herokuapp.com/admin/ViewAllPayments')
       .then(response => {
         this.setState({ options: response.data });
         console.log(response.data)
@@ -47,34 +47,47 @@ class GetallCategories extends Component {
 
           </a>
           <a class="item">
-            Menu
-            <a class="item" href="/room">
-              Rooms
+            Admin Menu
+            <a class="item" href="/viewRooms">
+              View All Rooms
             </a>
-            <a class="item" href="/reserve">
-              Make Reservations
+            <a class="item" href="/addRoom">
+              Add Rooms
             </a>
-            <a class="item" href="/myReservations">
-              My Reservations
+            <a class="item" href="/AddManager">
+              Add Manager
             </a>
-            <a class="item" href="/ViewActivites">
-              View Activities
+            <a class="item" href="/ViewAlluser">
+              View Users
             </a>
-            <a class="item" href="/AddRefund">
-              Refunds
+            <a class="item" href="/viewReservation">
+              View Reservations
             </a>
-            <a class="item" href="/AddFeedBack">
-              Contact
+            <a class="item" href="/addActivites">
+              Add Activities
             </a>
+            <a class="item" href="/ManageActivities">
+              Manage Activities
+            </a>
+            <a class="item" href="/ViewRefund">
+              View Refunds
+            </a>
+            <a class="item" href="/ViewPayment">
+              View Payments
+            </a>
+
           </a>
-          <a class="item" href="/profile">
-            Profile
+          <a class="item" href="/ViewFeedBack">
+            Feedbacks
+          </a>
+          <a class="item" href="/ChangeHotel">
+            Settings
           </a>
           <a class="item" href="/login" >
             Logout
           </a>
-          <a class="item" href="/viewRooms">
-            Switch To Admin
+          <a class="item" href="/room">
+            Switch To User
           </a>
         </div>
         <div class="pusher">
@@ -83,7 +96,7 @@ class GetallCategories extends Component {
 
               <Header as='h2' icon textAlign='center'>
                 <Icon name='hotel' circular />
-                <Header.Content>Hotel Rooms</Header.Content>
+                <Header.Content>Payments</Header.Content>
               </Header>
 
             </div>
@@ -93,32 +106,29 @@ class GetallCategories extends Component {
               {this.state.options.length > 0 && this.state.options.map((item, index) => (
 
                 <div style={{ display: 'inline-block', marginLeft: '100px', marginRight: '40px', marginBottom: '100px' }} key={index}>
-                  <div>
+                  <div >
                     <Card>
                       <Image style={{ height: '200px' }} src={item.img} />
                       <Card.Content>
-                        <Card.Header>Room Name : {item.Room_Name}</Card.Header>
-                        <Card.Meta>
-                          <span className='date'> Room Type : {item.Room_Type}</span>
-                        </Card.Meta>
+                        <Card.Header>Payment Made By : {item.HolderName}</Card.Header>
+
                       </Card.Content>
                       <Card.Content extra>
+
                         <a>
                           <Icon name='user' />
-                          Beds : {item.Beds}
+                          Status : {item.Status}
                         </a>
+
                         <br></br>
                         <a>
                           <Icon name='user' />
-                          Floor : {item.Floor}
+                          Room ID : {item.RoomID}
                         </a>
-                        <br></br>
-                        <a>
-                          <Icon name='user' />
-                          Price : {item.Price}
-                        </a>
+
                       </Card.Content>
                     </Card>
+
 
 
                   </div>

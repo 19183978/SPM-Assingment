@@ -21,7 +21,7 @@ class GetallCategories extends Component {
 
   componentDidMount() {
     console.log("test")
-    axios.get('https://doubletreeapi.herokuapp.com/rooms/get_all_rooms')
+    axios.get('https://doubletreeapi.herokuapp.com/user/get_all_actiities')
       .then(response => {
         this.setState({ options: response.data });
         console.log(response.data)
@@ -74,7 +74,7 @@ class GetallCategories extends Component {
             Logout
           </a>
           <a class="item" href="/viewRooms">
-            Switch To Admin
+            Switch To Admmin
           </a>
         </div>
         <div class="pusher">
@@ -83,7 +83,7 @@ class GetallCategories extends Component {
 
               <Header as='h2' icon textAlign='center'>
                 <Icon name='hotel' circular />
-                <Header.Content>Hotel Rooms</Header.Content>
+                <Header.Content>Activities</Header.Content>
               </Header>
 
             </div>
@@ -93,24 +93,24 @@ class GetallCategories extends Component {
               {this.state.options.length > 0 && this.state.options.map((item, index) => (
 
                 <div style={{ display: 'inline-block', marginLeft: '100px', marginRight: '40px', marginBottom: '100px' }} key={index}>
-                  <div>
+                  <div >
                     <Card>
                       <Image style={{ height: '200px' }} src={item.img} />
                       <Card.Content>
-                        <Card.Header>Room Name : {item.Room_Name}</Card.Header>
-                        <Card.Meta>
-                          <span className='date'> Room Type : {item.Room_Type}</span>
-                        </Card.Meta>
+                        <Card.Header>Activity Name : {item.ActivityName}</Card.Header>
+
                       </Card.Content>
                       <Card.Content extra>
+
                         <a>
                           <Icon name='user' />
-                          Beds : {item.Beds}
+                          Location : {item.Location}
                         </a>
+
                         <br></br>
                         <a>
                           <Icon name='user' />
-                          Floor : {item.Floor}
+                          Max Participants : {item.Max}
                         </a>
                         <br></br>
                         <a>
@@ -119,6 +119,7 @@ class GetallCategories extends Component {
                         </a>
                       </Card.Content>
                     </Card>
+
 
 
                   </div>

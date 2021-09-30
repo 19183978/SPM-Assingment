@@ -23,7 +23,8 @@ class AddVehicle extends Component {
             Ammount: '',
             name: '',
             size: '',
-            categories: []
+            categories: [],
+            idx: ''
 
         };
     }
@@ -63,30 +64,36 @@ class AddVehicle extends Component {
     onSubmit(e) {
         e.preventDefault();
         const Reservation = {
+            id: this.state.idx,
             User_Name: "User",
-            Room_ID: this.state.categories[0],
+            Room_ID: this.state.size,
             From_Date: this.state.Code,
             To_Date: this.state.Ammount,
             Price: "Price",
             Status: "Pending"
         };
         console.log(Reservation);
-        axios.post('https://doubletreeapi.herokuapp.com/reservation/make_reservation', Reservation)
+        axios.post('https://doubletreeapi.herokuapp.com/reservation/RemoveReservation', Reservation)
             .then(res => {
-                toast.show({ title: 'Reservation Made Sucessfully ', position: 'topcenter', type: 'info' })
-                window.location = `/MakePyament`
+                toast.show({ title: 'Reservation Updated Sucessfully ', position: 'topcenter', type: 'info' })
+                window.location = `/myReservations`
             });
 
     }
 
     componentDidMount() {
         console.log("test")
-        axios.get('https://doubletreeapi.herokuapp.com/rooms/get_all_rooms')
+        const User = {
+            User_Name: "User"
+        }
+        axios.post('https://doubletreeapi.herokuapp.com/reservation/get_all_Reservations_byUserID', User)
             .then(response => {
-                this.setState({ options: response.data });
+                this.setState({ size: response.data.data[0].Room_ID });
+                this.setState({ Ammount: response.data.data[0].To_Date });
+                this.setState({ Code: response.data.data[0].From_Date });
+                this.setState({ idx: response.data.data[0]._id });
                 console.log(response.data)
                 console.log("test11")
-
             })
     }
     render() {
@@ -134,23 +141,12 @@ class AddVehicle extends Component {
 
                         <Header as='h2' icon textAlign='center'>
                             <Icon name='rebel' circular />
-                            <Header.Content>Make Reservation</Header.Content>
+                            <Header.Content>Update Reservation</Header.Content>
                         </Header>
                         <br></br><br></br> <br></br><br></br>
                         <form onSubmit={this.onSubmit}>
 
-                            <div className="form-group">
-                                <label>Room: </label>
-                                <Multiselect
-                                    options={this.state.options}
-                                    selectedValues={this.state.selectedValue}
-                                    onSelect={this.onSelect}
-                                    onRemove={this.onRemove}
-                                    displayValue="Room_Name"
-                                    value={this.state.selectedValue}
-                                    onSelect={this.onSelect}
-                                />
-                            </div>
+
                             <div className="mb-3">
                                 <label>From Date: </label>
                                 <input
@@ -174,9 +170,8 @@ class AddVehicle extends Component {
 
 
                             <center>   <Button.Group>
-                                <Button href="/reserve" type="reset">Reset</Button>
-                                <Button.Or />
-                                <Button type="submit" positive>Make Reservation</Button>
+
+                                <Button type="submit" positive>Update Reservation</Button>
                             </Button.Group>
 
                                 <br></br></center>

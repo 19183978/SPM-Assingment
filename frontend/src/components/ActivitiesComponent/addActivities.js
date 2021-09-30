@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Multiselect } from 'multiselect-react-dropdown';
 import { Card, Icon, Image, Header, Button } from 'semantic-ui-react'
+import { Multiselect } from 'multiselect-react-dropdown';
+import { toast } from 'toast-notification-alert';
 class AddVehicle extends Component {
     constructor(props) {
         super(props);
-
+        var imageName = require('../../images/doubletree.png')
         this.onChangeFullName = this.onChangeFullName.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
         this.onChangeEmail = this.onChangeEmail.bind(this);
@@ -81,18 +82,22 @@ class AddVehicle extends Component {
     onSubmit(e) {
         e.preventDefault();
         const User = {
-            Room_Name: this.state.Full_Name,
-            Room_Type: this.state.Email,
-            Beds: this.state.Password,
-            Floor: this.state.Age,
-            Price: this.state.Phone,
-
+            ActivityName: this.state.Full_Name,
+            Location: this.state.Email,
+            Price: this.state.Password,
+            Max: this.state.Age,
         };
         console.log(User);
-        axios.post('https://doubletreeapi.herokuapp.com/rooms/add_room', User)
-            .then(res => console.log(res.data));
+        axios.post('https://doubletreeapi.herokuapp.com/admin/add_activity', User)
+            .then(res => {
+                if (res.data.Status == "Fail") {
 
-        window.location = `/viewRooms`
+                    toast.show({ title: 'Manager Creation Failed. Manager Already Exists', position: 'topcenter', type: 'info' })
+                } else {
+                    window.location = `/addActivites`
+                }
+            });
+
 
     }
 
@@ -158,14 +163,18 @@ class AddVehicle extends Component {
                     <div className="container">
                         <br></br>
 
+
                         <Header as='h2' icon textAlign='center'>
-                            <Icon name='tag' circular />
-                            <Header.Content>Add New Room</Header.Content>
+                            <Icon name='user' circular />
+                            <Header.Content>Add Activities</Header.Content>
                         </Header>
-                        <br></br><br></br> <br></br><br></br>
+
+
+                        <br></br>
+
                         <form onSubmit={this.onSubmit}>
                             <div className="mb-3">
-                                <label>Room Name: </label>
+                                <label>Activity Name: </label>
                                 <input
                                     type="text"
                                     className="form-control"
@@ -175,7 +184,7 @@ class AddVehicle extends Component {
                                 />
                             </div>
                             <div className="form-group">
-                                <label>Room Type: </label>
+                                <label>Location: </label>
                                 <input
                                     type="text"
                                     className="form-control"
@@ -185,7 +194,7 @@ class AddVehicle extends Component {
                                 />
                             </div>
                             <div className="form-group">
-                                <label>Beds: </label>
+                                <label>Price: </label>
                                 <input
                                     type="text"
                                     className="form-control"
@@ -196,7 +205,7 @@ class AddVehicle extends Component {
                             </div>
 
                             <div className="form-group">
-                                <label>Floor: </label>
+                                <label>Max Occupants: </label>
                                 <input
                                     type="text"
                                     className="form-control"
@@ -205,26 +214,13 @@ class AddVehicle extends Component {
 
                                 />
                             </div>
-                            <div className="form-group">
-                                <label>Price: </label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    value={this.state.Phone}
-                                    onChange={this.onChangePhone}
-
-                                />
-                            </div>
-
-
 
 
                             <br></br>
-
                             <center><Button.Group>
-                                <Button type="reset">Reset</Button>
+                                <Button href="/addActivites" type="reset">Reset</Button>
                                 <Button.Or />
-                                <Button type="submit" positive>Add Room</Button>
+                                <Button type="submit" positive>Add Activity</Button>
                             </Button.Group></center>
                         </form>
 

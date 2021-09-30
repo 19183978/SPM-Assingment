@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Multiselect } from 'multiselect-react-dropdown';
-
+import { Card, Icon, Image, Header, Button } from 'semantic-ui-react'
+import { toast } from 'toast-notification-alert';
 class AddVehicle extends Component {
     constructor(props) {
         super(props);
@@ -89,8 +90,14 @@ class AddVehicle extends Component {
             Sex: this.state.Sex,
         };
         console.log(User);
-        axios.post('http://localhost:8089/user/updateUser', User)
-            .then(res => console.log(res.data));
+        axios.post('https://doubletreeapi.herokuapp.com/user/updateUser', User)
+            .then(res => {
+                setTimeout(() => {
+                    console.log('Hello, World!')
+                  }, 30000);
+                toast.show({title: 'Profile Updated', position: 'topcenter', type: 'info'})
+                window.location = `/profile`
+            });
 
     }
 
@@ -100,7 +107,7 @@ class AddVehicle extends Component {
         const User = {
             id: this.props.match.params.id
         }
-        axios.post('http://localhost:8089/user/get_UserData', User)
+        axios.post('https://doubletreeapi.herokuapp.com/user/get_UserData', User)
             .then(response => {
                 this.setState({ Full_Name: response.data.data[0].Full_Name });
                 this.setState({ Email: response.data.data[0].Email });
@@ -115,9 +122,52 @@ class AddVehicle extends Component {
     }
     render() {
         return (
-            <div className="container">
+            <body>
+            <div class="ui visible sidebar inverted vertical menu">
+                <a class="item">
+                    <Image style={{ height: '200px' }} src="https://newsroom.hilton.com/assets/DBTR/images/logos/DoubleTree-Logo-White_HR.png" />
 
-                <h3>Login</h3>
+                </a>
+                <a class="item">
+                    Menu
+                    <a class="item" href="/room">
+                        Rooms
+                    </a>
+                    <a class="item" href="/reserve">
+                        Make Reservations
+                    </a>
+                    <a class="item" href="/myReservations">
+                        My Reservations
+                    </a>
+                    <a class="item" href="/ViewActivites">
+                        View Activities
+                    </a>
+                    <a class="item" href="/AddRefund">
+                        Refunds
+                    </a>
+                    <a class="item" href="/AddFeedBack">
+                        Contact
+                    </a>
+                </a>
+                <a class="item" href="/profile">
+                    Profile
+                </a>
+                <a class="item" href="/login" >
+                    Logout
+                </a>
+                <a class="item" href="/viewRooms">
+                    Switch To Admin
+                </a>
+            </div>
+            <div class="pusher">
+            <div className="container">
+                <br></br>
+
+                <Header as='h2' icon textAlign='center'>
+                    <Icon name='exchange' circular />
+                    <Header.Content>Update Profile</Header.Content>
+                </Header>
+                <br></br><br></br> <br></br><br></br>
                 <form onSubmit={this.onSubmit}>
                     <div className="mb-3">
                         <label>Full Name: </label>
@@ -177,13 +227,16 @@ class AddVehicle extends Component {
 
                     <br></br>
 
-                    <div className="form-group">
-                        <input type="submit" value="Update Profile" className="btn btn-primary" />
-                    </div>
+                    <center><Button.Group>
+                     
+                        <Button  type="submit" positive>Update Profile</Button>
+                    </Button.Group></center> 
                 </form>
 
 
             </div>
+            </div>
+            </body>
         )
     }
 }

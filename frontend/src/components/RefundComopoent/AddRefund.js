@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Multiselect } from 'multiselect-react-dropdown';
 import { Card, Icon, Image, Header, Button } from 'semantic-ui-react'
+import { Multiselect } from 'multiselect-react-dropdown';
+import { toast } from 'toast-notification-alert';
 class AddVehicle extends Component {
     constructor(props) {
         super(props);
@@ -81,30 +82,25 @@ class AddVehicle extends Component {
     onSubmit(e) {
         e.preventDefault();
         const User = {
-            Room_Name: this.state.Full_Name,
-            Room_Type: this.state.Email,
-            Beds: this.state.Password,
-            Floor: this.state.Age,
-            Price: this.state.Phone,
+            Room: this.state.Full_Name,
+            PaymentDate: this.state.Email,
+            Meesage: this.state.Password,
 
         };
         console.log(User);
-        axios.post('https://doubletreeapi.herokuapp.com/rooms/add_room', User)
-            .then(res => console.log(res.data));
+        axios.post('https://doubletreeapi.herokuapp.com/user/AddRefund', User)
+            .then(res => {
+                if (res.data.Status == "Fail") {
 
-        window.location = `/viewRooms`
+                    toast.show({ title: 'Manager Creation Failed. Manager Already Exists', position: 'topcenter', type: 'info' })
+                } else {
+                    window.location = `/AddRefund`
+                }
+            });
+
 
     }
 
-    componentDidMount() {
-        console.log("test")
-        axios.get('https://doubletreeapi.herokuapp.com/category/get_all_categories')
-            .then(response => {
-                this.setState({ options: response.data });
-                console.log(response.data)
-                console.log("test11")
-            })
-    }
     render() {
         return (
             <body>
@@ -114,55 +110,49 @@ class AddVehicle extends Component {
 
                     </a>
                     <a class="item">
-                        Admin Menu
-                        <a class="item" href="/viewRooms">
-                            View All Rooms
+                        Menu
+                        <a class="item" href="/room">
+                            Rooms
                         </a>
-                        <a class="item" href="/addRoom">
-                            Add Rooms
+                        <a class="item" href="/reserve">
+                            Make Reservations
                         </a>
-                        <a class="item" href="/AddManager">
-                            Add Manager
+                        <a class="item" href="/myReservations">
+                            My Reservations
                         </a>
-                        <a class="item" href="/ViewAlluser">
-                            View Users
+                        <a class="item" href="/ViewActivites">
+                            View Activities
                         </a>
-                        <a class="item" href="/viewReservation">
-                            View Reservations
+                        <a class="item" href="/AddRefund">
+                            Refunds
                         </a>
-                        <a class="item" href="/addActivites">
-                            Add Activities
+                        <a class="item" href="/AddFeedBack">
+                            Contact
                         </a>
-                        <a class="item" href="/ManageActivities">
-                            Manage Activities
-                        </a>
-                        <a class="item" href="/ViewRefund">
-                            View Refunds
-                        </a>
-                        <a class="item" href="/ViewPayment">
-                            View Payments
-                        </a>
-
                     </a>
-                    <a class="item" href="/ViewFeedBack">
-                        Feedbacks
+                    <a class="item" href="/profile">
+                        Profile
                     </a>
                     <a class="item" href="/login" >
                         Logout
                     </a>
-                    <a class="item" href="/room">
-                        Switch To User
+                    <a class="item" href="/viewRooms">
+                        Switch To Admin
                     </a>
                 </div>
                 <div class="pusher">
                     <div className="container">
                         <br></br>
 
+
                         <Header as='h2' icon textAlign='center'>
-                            <Icon name='tag' circular />
-                            <Header.Content>Add New Room</Header.Content>
+                            <Icon name='user' circular />
+                            <Header.Content>Make Refund Request</Header.Content>
                         </Header>
-                        <br></br><br></br> <br></br><br></br>
+
+
+                        <br></br>
+
                         <form onSubmit={this.onSubmit}>
                             <div className="mb-3">
                                 <label>Room Name: </label>
@@ -175,9 +165,9 @@ class AddVehicle extends Component {
                                 />
                             </div>
                             <div className="form-group">
-                                <label>Room Type: </label>
+                                <label>Payment Date: </label>
                                 <input
-                                    type="text"
+                                    type="date"
                                     className="form-control"
                                     value={this.state.Email}
                                     onChange={this.onChangeEmail}
@@ -185,7 +175,7 @@ class AddVehicle extends Component {
                                 />
                             </div>
                             <div className="form-group">
-                                <label>Beds: </label>
+                                <label>Meesage: </label>
                                 <input
                                     type="text"
                                     className="form-control"
@@ -195,36 +185,13 @@ class AddVehicle extends Component {
                                 />
                             </div>
 
-                            <div className="form-group">
-                                <label>Floor: </label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    value={this.state.Age}
-                                    onChange={this.onChnageAge}
-
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Price: </label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    value={this.state.Phone}
-                                    onChange={this.onChangePhone}
-
-                                />
-                            </div>
-
-
 
 
                             <br></br>
-
                             <center><Button.Group>
-                                <Button type="reset">Reset</Button>
+                                <Button href="/AddRefund" type="reset">Reset</Button>
                                 <Button.Or />
-                                <Button type="submit" positive>Add Room</Button>
+                                <Button type="submit" positive>Send Request</Button>
                             </Button.Group></center>
                         </form>
 

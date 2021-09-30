@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Multiselect } from 'multiselect-react-dropdown';
+import { toast } from 'toast-notification-alert';
 
 class AddVehicle extends Component {
     constructor(props) {
@@ -22,7 +23,8 @@ class AddVehicle extends Component {
             Ammount: '',
             name: '',
             size: '',
-            categories :[]
+            categories :[],
+            Status:''
 
         };
     }
@@ -66,15 +68,28 @@ class AddVehicle extends Component {
             Password:this.state.Ammount,
            
         };
+        
         console.log(User);
-        axios.post('http://localhost:8089/user/login', User)
-            .then(res => console.log(res.data));
-       
+        axios.post('https://doubletreeapi.herokuapp.com/user/login', User)
+            .then(res =>{
+                console.log(res.data.Status)
+                this.setState({ Status: res.data.Status });
+                if(res.data.Status == "Fail"){
+                    toast.show({title: 'Login Failed, Invalid Credentials', position: 'topcenter', type: 'info'})
+
+                }else{
+                    toast.show({title: 'Login Sucessfull ', position: 'topcenter', type: 'info'})
+                    window.location = `/room`
+                }
+
+            });
+        
+             
     }
 
     componentDidMount() {
         console.log("test")
-        axios.get('http://localhost:8089/category/get_all_categories')
+        axios.get('https://doubletreeapi.herokuapp.com/category/get_all_categories')
         .then(response => {
           this.setState({ options: response.data });
           console.log(response.data)
@@ -83,42 +98,50 @@ class AddVehicle extends Component {
       }
     render() {
         return (
-            <div className="container">
+            <div>
+                <br></br> <br></br> <br></br> <br></br> <br></br> <br></br> <br></br>
+           
 
-                <h3>Login</h3>
-                <form onSubmit={this.onSubmit}>
-                    <div className="mb-3">
-                        <label>Email: </label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            value={this.state.Code}
-                            onChange={this.onChangeCode}
-
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label>Password: </label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            value={this.state.Ammount}
-                            onChange={this.OnchnageAmmount}
-
-                        />
-                    </div>
-
-                  
-             
-                    <br></br>
-
-                    <div className="form-group">
-                        <input type="submit" value="Login" className="btn btn-primary" />
-                    </div>
-                </form>
-
-
-            </div>
+             <div style={{fontSize:'30px'}} >
+               <center>Welcome Back, Please Login to continue</center>  
+<br></br>
+             </div >
+            <div style={{marginLeft:'33.4%'}} className="card col-12 col-lg-4 login-card mt-2 hv-center">
+            <form onSubmit={this.onSubmit}>
+                <div className="form-group text-left">
+                <label htmlFor="exampleInputEmail1">Email address</label>
+                <br></br>
+                <input type="email" 
+                       className="form-control" 
+                       id="email" 
+                       aria-describedby="emailHelp" 
+                       placeholder="Enter email"
+                       value={this.state.Code}
+                       onChange={this.onChangeCode}
+                />
+<br></br>
+                </div>
+                <div className="form-group text-left">
+                    <label htmlFor="exampleInputPassword1">Password</label>
+                    <input type="password" 
+                        className="form-control" 
+                        id="password" 
+                        placeholder="Password"
+                        value={this.state.Ammount}
+                        onChange={this.OnchnageAmmount}
+                    />
+                </div>
+                
+                <center>
+                <button 
+                    type="submit" 
+                    className="btn btn-primary"
+                >
+                    Login
+                </button></center>
+            </form>
+        </div>
+        </div>
         )
     }
 }

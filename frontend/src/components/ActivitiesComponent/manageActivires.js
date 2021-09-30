@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Card, Icon, Image, Header, Button } from 'semantic-ui-react'
+
 class GetallCategories extends Component {
     constructor(props) {
         super(props);
@@ -20,34 +21,37 @@ class GetallCategories extends Component {
 
     componentDidMount() {
         console.log("test")
-        axios.get('https://doubletreeapi.herokuapp.com/rooms/get_all_rooms')
+        axios.get('https://doubletreeapi.herokuapp.com/user/get_all_actiities')
             .then(response => {
                 this.setState({ options: response.data });
                 console.log(response.data)
-                console.log("test1122")
+                console.log("test11")
             })
     }
-
-    UpdateRoom(e, ID) {
-        window.location = `/ViewROomByID/${ID}`
-    }
-
     DeleteUSer(e, ID) {
         const User = {
             id: ID
         }
-        axios.post('https://doubletreeapi.herokuapp.com/rooms/RemoveROOm', User)
+        axios.post('https://doubletreeapi.herokuapp.com/admin/RemoveActivity', User)
             .then(response => {
                 this.setState({ options: response.data.data });
                 console.log(response.data.data)
                 console.log("test11")
             })
-        window.location = `/viewRooms`
+        window.location = `/ManageActivities`
     }
 
 
+
     render() {
+        const extra = (
+            <a>
+                <Icon name='user' />
+                16 Friends
+            </a>
+        )
         return (
+
             <body>
                 <div class="ui visible sidebar inverted vertical menu">
                     <a class="item">
@@ -88,9 +92,6 @@ class GetallCategories extends Component {
                     <a class="item" href="/ViewFeedBack">
                         Feedbacks
                     </a>
-                    <a class="item" href="/ChangeHotel">
-                        Settings
-                    </a>
                     <a class="item" href="/login" >
                         Logout
                     </a>
@@ -104,7 +105,7 @@ class GetallCategories extends Component {
 
                             <Header as='h2' icon textAlign='center'>
                                 <Icon name='hotel' circular />
-                                <Header.Content>Hotel Rooms</Header.Content>
+                                <Header.Content>Activities</Header.Content>
                             </Header>
 
                         </div>
@@ -113,25 +114,25 @@ class GetallCategories extends Component {
 
                             {this.state.options.length > 0 && this.state.options.map((item, index) => (
 
-                                <div style={{ display: 'inline-block', marginLeft: '100px', marginRight: '40px', marginBottom: '100px' }} key={index}>
-                                    <div>
+                                <div style={{ display: 'inline-block', marginLeft: '160px', marginBottom: '100px' }} key={index}>
+                                    <div >
                                         <Card>
                                             <Image style={{ height: '200px' }} src={item.img} />
                                             <Card.Content>
-                                                <Card.Header>Room Name : {item.Room_Name}</Card.Header>
-                                                <Card.Meta>
-                                                    <span className='date'> Room Type : {item.Room_Type}</span>
-                                                </Card.Meta>
+                                                <Card.Header>Activity Name : {item.ActivityName}</Card.Header>
+
                                             </Card.Content>
                                             <Card.Content extra>
+
                                                 <a>
                                                     <Icon name='user' />
-                                                    Beds : {item.Beds}
+                                                    Location : {item.Location}
                                                 </a>
+
                                                 <br></br>
                                                 <a>
                                                     <Icon name='user' />
-                                                    Floor : {item.Floor}
+                                                    Max Participants : {item.Max}
                                                 </a>
                                                 <br></br>
                                                 <a>
@@ -139,23 +140,23 @@ class GetallCategories extends Component {
                                                     Price : {item.Price}
                                                 </a>
                                             </Card.Content>
-                                            <Card.Content extra>
-                                                <div className='ui two buttons'>
-                                                    <Button onClick={e => this.UpdateRoom(e, item.Room_Name)} basic color='green'>
-                                                        Update Room
-                                                    </Button>
-                                                    <Button onClick={e => this.DeleteUSer(e, item._id)} basic color='red'>
-                                                        Remove Room
-                                                    </Button>
-                                                </div>
-                                            </Card.Content>
                                         </Card>
+                                        <Card.Content extra>
+                                            <div className='ui two buttons'>
+
+                                                <Button onClick={e => this.DeleteUSer(e, item._id)} basic color='red'>
+                                                    Remove Activity
+                                                </Button>
+                                            </div>
+                                        </Card.Content>
+
 
 
                                     </div>
                                 </div>
 
-                            ))}
+                            ))
+                            }
                         </div>
                     </div>
                 </div>
