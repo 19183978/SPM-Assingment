@@ -1,20 +1,14 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-let Room = new Schema({
-    Room_Name: {
+let Manager = new Schema({
+    HolderName: {
         type: String
     },
-    Room_Type: {
+    Status: {
         type: String
     },
-    Beds: {
-        type: String
-    },
-    Floor: {
-        type: String
-    },
-    Price: {
+    RoomID: {
         type: String
     },
     img:{
@@ -22,4 +16,4 @@ let Room = new Schema({
     }
 });
 
-module.exports = mongoose.model('Room', Room);
+module.exports = mongoose.model('payment', Manager);

@@ -1,25 +1,22 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-let Room = new Schema({
-    Room_Name: {
+let Activities = new Schema({
+    ActivityName: {
         type: String
     },
-    Room_Type: {
-        type: String
-    },
-    Beds: {
-        type: String
-    },
-    Floor: {
+    Location: {
         type: String
     },
     Price: {
         type: String
     },
-    img:{
+    Max: {
+        type: String
+    },
+    img :{
         type:String
     }
 });
 
-module.exports = mongoose.model('Room', Room);
+module.exports = mongoose.model('Actviity', Activities);
