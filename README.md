@@ -7,7 +7,7 @@
 Member Details
 
 Name        Student ID               UserName <br>
-Member1     L.A.P.A.Weerasinghe       Pawani99z
+Member1     L.A.P.A.Weerasinghe       Pawani99z <br>
 Member2     Dias S.I.C                Neo87z
 Member3     D.Vithanage               Lopez
 
