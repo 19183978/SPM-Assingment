@@ -8,8 +8,8 @@ Member Details
 
 Name        Student ID               UserName <br>
 Member1     L.A.P.A.Weerasinghe       Pawani99z <br>
-Member2     Dias S.I.C                Neo87z
-Member3     D.Vithanage               Lopez
+Member2     Dias S.I.C                Imalshi98<br>
+Member3     D.Vithanage               Lopez<br>
 
 **Project Description **
 
