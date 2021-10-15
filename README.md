@@ -6,10 +6,10 @@
 
 Member Details
 
-Name            Student ID                     UserName <br>
+Name      &nbsp&nbsp&nbsp&nbsp&nbsp      Student ID                     UserName <br>
 Member1         L.A.P.A.Weerasinghe            Pawani99z <br>
 Member2         Dias S.I.C                     Imalshi98<br>
-Member3         D.Vithanage                    DuliLopex<br>
+Member3         D.Vithanage                    DuliLopez<br>
 
 **Project Description **
 
