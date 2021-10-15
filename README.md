@@ -7,9 +7,9 @@
 Member Details
 
 Name        Student ID                     UserName <br>
-Member1         L.A.P.A.Weerasinghe            Pawani99z <br>
-Member2         Dias S.I.C                     Imalshi98<br>
-Member3         D.Vithanage                    DuliLopez<br>
+Member1        IT19133546            Pawani99z <br>
+Member2         IT19183978                    Imalshi98<br>
+Member3       IT19142142                DuliLopez<br>
 
 **Project Description **
 
