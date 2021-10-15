@@ -9,7 +9,7 @@ Member Details
 Name        Student ID               UserName <br>
 Member1     L.A.P.A.Weerasinghe       Pawani99z <br>
 Member2     Dias S.I.C                Imalshi98<br>
-Member3     D.Vithanage               Lopez<br>
+Member3     D.Vithanage               DuliLopex<br>
 
 **Project Description **
 
